@@ -96,7 +96,7 @@ yaml_bgp_data = \
     groups:
       neigh : neighbor
     fields:
-      bgp_name   : { 'name' : { 'type' : 'str', 'minValue' : 0, 'maxValue' : 255} }
+      bgp_name   : { 'name' : { 'type' : 'str', 'minValue' : 1, 'maxValue' : 255} }
       bgp_type   : {'type' : {'type': { 'enum': ['external', 'internal'] } } }
       local_addr : local-address
       peer       : { 'peer-as' : { 'type' : 'int' } }
