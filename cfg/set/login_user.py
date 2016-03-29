@@ -20,10 +20,8 @@ yaml_data = \
         auth: authentication
       fields:
         user: name
-        uid: uid
+        uid: { uid : { 'type' : 'int', 'minValue' : 100, 'maxValue' : 64000 } }
         class_name: { class : { 'type' : { 'enum' : ['operator', 'read-only', 'super-user'] } } }
-        uidgroup: { uid : { 'type' : 'int', 'minValue' : 100, 'maxValue' : 64000 } }
-        fullgroup: full-name
       fields_auth:
         password: encrypted-password
       """
