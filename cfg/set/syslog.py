@@ -40,19 +40,21 @@ sys.error = ''
 
 # Add previous fields xpath-value pair (1st record) to
 # configuration xml.
-sys.append
+sys.append()
 
-# 2nd record.
 sys.name = "message_3"
 sys.contents_name = "authorization"
 sys.info = ''
 
-# 3rd record.
-sys.append
+# append 2nd record.
+sys.append()
 
 sys['name'] = "message_4"
 sys['contents_name'] = "authorization"
 sys['info'] = ''
+
+# append 3rd record.
+sys.append()
 
 # Apply configuration in candidate db.
 sys.load()
@@ -63,6 +65,7 @@ if sys.commit_check():
    sys.commit()
 else:
    sys.rollback()
+
 
 # Display syslog configuration.
 cnf_filter = \

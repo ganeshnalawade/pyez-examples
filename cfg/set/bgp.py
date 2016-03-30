@@ -47,6 +47,9 @@ globals().update(FactoryLoader().load(yaml.load(yaml_auto_data)))
 at = AutoSysTable(dev)
 at.as_num = 100
 
+# append record
+at.append()
+
 # Apply configuration in running db.
 at.set()
 
@@ -113,6 +116,9 @@ bgp.bgp_type = 'external'
 bgp.local_addr = '20.20.20.20'
 bgp.peer = 200
 bgp.neigh = '30.30.10.10'
+
+# append record
+bgp.append()
 
 # Apply configuration in running db.
 bgp.set()

@@ -42,6 +42,9 @@ intf.vlan_list = [510, 520, 530]
 intf.native_vlan = 510
 intf.desc = "l2-interface created"
 
+# append record
+intf.append()
+
 intf.lock()
 intf.load()
 

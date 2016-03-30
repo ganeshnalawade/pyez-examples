@@ -39,7 +39,8 @@ for usr, id, passwd in zip(users, identifiers, passwds):
     ut.uid = id
     ut.class_name = 'read-only'
     ut.password = passwd
-    ut.append
+    # append record
+    ut.append()
 
 # Apply configuration in running db.
 ut.set()
