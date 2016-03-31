@@ -7,7 +7,7 @@ import yaml
 dev = Device('xxxx', user='xxxx', password='xxxx')
 dev.open()
 
-# Yml table for login user configuration.
+# Yml table for static route configuration.
 yaml_data = \
     """---
     StaticRouteTable:
