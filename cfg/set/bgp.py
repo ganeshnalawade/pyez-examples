@@ -104,7 +104,7 @@ yaml_bgp_data = \
       local_addr : local-address
       peer       : { 'peer-as' : { 'type' : 'int' } }
     fields_neigh:
-      neigh      : name
+      neigh_addr : name
    """
 
 globals().update(FactoryLoader().load(yaml.load(yaml_bgp_data)))
@@ -115,7 +115,7 @@ bgp.bgp_name = 'external_bgp'
 bgp.bgp_type = 'external'
 bgp.local_addr = '20.20.20.20'
 bgp.peer = 200
-bgp.neigh = '30.30.10.10'
+bgp.neigh_addr = '30.30.10.10'
 
 # append record
 bgp.append()
@@ -130,5 +130,5 @@ for item in bgp_get:
     print "bgp_type: ", item.bgp_type
     print "local_addr: ", item.local_addr
     print "peer: ", item.peer
-    print "neigh: ", item.neigh
+    print "neigh_addr: ", item.neigh_addr
     print ''
