@@ -1,31 +1,10 @@
 __author__ = 'gnalawade'
 
 from jnpr.junos import Device
-from jnpr.junos.factory.factory_loader import FactoryLoader
-import yaml
+from jnpr.junos.resources.user import UserTable
 
 dev = Device('xxxx', user='xxxx', password='xxxx')
 dev.open()
-
-# Yml table for login user configuration.
-yaml_data = \
-    """---
-    UserTable:
-      set: system/login/user
-      key-field:
-        user
-      view: userView
-    userView:
-      groups:
-        auth: authentication
-      fields:
-        user: name
-        uid: { uid : { 'type' : 'int', 'minValue' : 100, 'maxValue' : 64000 } }
-        class_name: { class : { 'type' : { 'enum' : ['operator', 'read-only', 'super-user'] } } }
-      fields_auth:
-        password: encrypted-password
-      """
-globals().update(FactoryLoader().load(yaml.load(yaml_data)))
 
 # Create object of UserTable
 ut = UserTable(dev)

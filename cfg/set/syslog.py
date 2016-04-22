@@ -1,35 +1,11 @@
 __author__ = 'gnalawade'
 
 from jnpr.junos import Device
-from jnpr.junos.factory.factory_loader import FactoryLoader
-import yaml
+from jnpr.junos.resources.syslog import SyslogTable
 from lxml import etree
 
 dev = Device('xxxx', user='xxxx', password='xxxx')
 dev.open()
-
-# Yml table for syslog configuration.
-yaml_data = \
-    """---
-  SyslogTable:
-    set: system/syslog/file
-    key-field:
-      - name
-      - contents_name
-    view: SyslogView
-
-  SyslogView:
-    groups:
-      contents: contents
-    fields:
-      name : { 'name' : { 'default' : 'messages' } }
-    fields_contents:
-      info           : info
-      contents_name  : name
-      error          : error
-   """
-
-globals().update(FactoryLoader().load(yaml.load(yaml_data)))
 
 sys = SyslogTable(dev)
 

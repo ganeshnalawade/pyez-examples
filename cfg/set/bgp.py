@@ -1,12 +1,54 @@
 __author__ = 'gnalawade'
 
 from jnpr.junos import Device
-from jnpr.junos.factory.factory_loader import FactoryLoader
-import yaml
+from jnpr.junos.resources.autosys import AutoSysTable
+from jnpr.junos.resources.bgp import BgpTable
+from jnpr.junos.factory.cfgtable import CfgTable
 
 # Connect to device.
 dev = Device('xxxx', user='xxxx', password='xxxx')
 dev.open()
+
+# Assign value to AutoSysTable field.
+at = AutoSysTable(dev)
+at.as_num = 100
+
+# append record
+at.append()
+
+# Apply configuration in running db.
+at.set()
+print dir(at)
+print at._AutoSysTable___isfrozen
+# Print configured autonomous-system value.
+at_get = at.get()
+for item in at_get:
+    print 'as_num: ', item.as_num
+    print ''
+
+# Assign value to BgpTable field.
+bgp = BgpTable(dev)
+bgp.bgp_name = 'external_bgp'
+bgp.bgp_type = 'external'
+bgp.local_addr = '20.20.20.20'
+bgp.peer = 200
+bgp.neigh_addr = '30.30.10.10'
+
+# append record
+bgp.append()
+
+# Apply configuration in running db.
+bgp.set()
+
+# Print configured BGP value.
+bgp_get = bgp.get()
+for item in bgp_get:
+    print "bgp_name: ", item.bgp_name
+    print "bgp_type: ", item.bgp_type
+    print "local_addr: ", item.local_addr
+    print "peer: ", item.peer
+    print "neigh: ", item.neigh_addr
+    print ''
 
 
 '''
@@ -25,42 +67,8 @@ root@junos# show routing-options | display xml
         <banner>[edit]</banner>
     </cli>
 </rpc-reply>
-'''
-
-# Yml table for autonomous-system configuration.
-yaml_auto_data = \
-    """---
-  AutoSysTable:
-    set: routing-options/autonomous-system
-    key-field:
-      - as_num
-    view: AutoSysView
-
-  AutoSysView:
-    fields:
-      as_num: as-number
-   """
-
-globals().update(FactoryLoader().load(yaml.load(yaml_auto_data)))
-
-# Assign value to AutoSysTable field.
-at = AutoSysTable(dev)
-at.as_num = 100
-
-# append record
-at.append()
-
-# Apply configuration in running db.
-at.set()
-
-# Print configured autonomous-system value.
-at_get = at.get()
-for item in at_get:
-    print 'as_num: ', item.as_num
-    print ''
 
 
-'''
 # Configuration XML snippet used as reference to create BgpTable table.
 
 root@junos# show protocols bgp | display xml
@@ -85,50 +93,3 @@ root@junos# show protocols bgp | display xml
     </cli>
 </rpc-reply>
 '''
-
-# Yml table for BGP configuration.
-yaml_bgp_data = \
-    """---
-  BgpTable:
-    set: protocols/bgp/group
-    key-field:
-      - bgp_name
-    view: BgpView
-
-  BgpView:
-    groups:
-      neigh : neighbor
-    fields:
-      bgp_name   : { 'name' : { 'type' : 'str', 'minValue' : 1, 'maxValue' : 255} }
-      bgp_type   : {'type' : {'type': { 'enum': ['external', 'internal'] } } }
-      local_addr : local-address
-      peer       : { 'peer-as' : { 'type' : 'int' } }
-    fields_neigh:
-      neigh_addr : name
-   """
-
-globals().update(FactoryLoader().load(yaml.load(yaml_bgp_data)))
-
-# Assign value to BgpTable field.
-bgp = BgpTable(dev)
-bgp.bgp_name = 'external_bgp'
-bgp.bgp_type = 'external'
-bgp.local_addr = '20.20.20.20'
-bgp.peer = 200
-bgp.neigh_addr = '30.30.10.10'
-
-# append record
-bgp.append()
-
-# Apply configuration in running db.
-bgp.set()
-
-# Print configured BGP value.
-bgp_get = bgp.get()
-for item in bgp_get:
-    print "bgp_name: ", item.bgp_name
-    print "bgp_type: ", item.bgp_type
-    print "local_addr: ", item.local_addr
-    print "peer: ", item.peer
-    print "neigh_addr: ", item.neigh_addr
-    print ''
